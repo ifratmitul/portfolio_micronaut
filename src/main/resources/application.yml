@@ -1,0 +1,34 @@
+micronaut:
+  application:
+    name: portfolio
+  server:
+    port: ${SERVER_PORT:8080}
+    cors:
+      enabled: true
+
+datasources:
+  default:
+    url: jdbc:mysql://localhost:3306/portfolio
+    username: mitul
+    password: 61234567
+    schema-generate: CREATE_DROP
+    dialect: MYSQL
+
+jpa:
+  default:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        show_sql: true
+
+#flyway:
+#  datasources:
+#    default:
+#      enabled: true
+
+netty:
+  default:
+    allocator:
+      max-order: 3
+
