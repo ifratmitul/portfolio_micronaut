@@ -32,3 +32,9 @@ netty:
     allocator:
       max-order: 3
 
+
+cloudinary:
+  cloudName: ifratcloud
+  apiKey: 375346444426626
+  apiSecret: Nsd8TyjMUNpr67jq5HoKhJW-GoA
+
