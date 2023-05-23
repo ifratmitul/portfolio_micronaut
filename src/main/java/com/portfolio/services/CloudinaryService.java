@@ -1,5 +1,6 @@
 package com.portfolio.services;
 
+import com.portfolio.models.dto.UploadResultDto;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import jakarta.inject.Singleton;
@@ -24,41 +25,11 @@ public class CloudinaryService {
         ));
     }
 
-    public String uploadFile(CompletedFileUpload fileUpload) throws IOException {
+    public UploadResultDto uploadFile(CompletedFileUpload fileUpload) throws IOException {
         var fileBytes = fileUpload.getBytes();
         Map<String, Object> uploadResult = cloudinary.uploader().upload(fileBytes, ObjectUtils.emptyMap());
-        return (String) uploadResult.toString();
+        UploadResultDto res = new UploadResultDto((String)uploadResult.get("asset_id"), (String)uploadResult.get("secure_url"));
+        return res;
     }
-
-    public String uploadFile(File fileUpload) throws IOException {
-        var test = fileUpload.getAbsolutePath();
-        var test2 = fileUpload.getPath();
-        var fileBytes = fileToByteArray(fileUpload);
-        Map<String, Object> uploadResult = cloudinary.uploader().upload(fileBytes, ObjectUtils.emptyMap());
-        return (String) uploadResult.toString();
-    }
-
-    public byte[] fileToByteArray(File file) throws IOException {
-        try (FileInputStream inputStream = new FileInputStream(file)) {
-            long fileSize = file.length();
-            if (fileSize > Integer.MAX_VALUE) {
-                throw new IOException("File is too large to read into a byte array");
-            }
-
-            byte[] bytes = new byte[(int) fileSize];
-            int offset = 0;
-            int bytesRead;
-            while (offset < bytes.length && (bytesRead = inputStream.read(bytes, offset, bytes.length - offset)) >= 0) {
-                offset += bytesRead;
-            }
-
-            if (offset < bytes.length) {
-                throw new IOException("Failed to read the entire file into a byte array");
-            }
-
-            return bytes;
-        }
-    }
-
 }
 

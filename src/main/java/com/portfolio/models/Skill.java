@@ -23,8 +23,8 @@ public class Skill {
     @NotBlank
     @Column
     private String name;
-    @Column
-    private String logo;
+    @OneToOne
+    private Photo photo;
 }
 
 
